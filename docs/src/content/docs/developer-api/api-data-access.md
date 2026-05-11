@@ -10,6 +10,11 @@ description: Methods for accessing and modifying spawner data and properties.
 | `getSpawnerById(String)` | Gets spawner data by unique ID | `SpawnerDataDTO` |
 | `getAllSpawners()` | Gets all registered spawners | `List<SpawnerDataDTO>` |
 | `getSpawnerModifier(String)` | Gets modifier to change spawner properties | `SpawnerDataModifier` |
+| `getSellPrice(Material)` | Gets the active sell price for a material | `double` |
+| `hasSellPrice(Material)` | Checks whether a material can be sold | `boolean` |
+| `setSellPrice(Material, double)` | Sets a custom sell price for a material | `void` |
+| `removeSellPrice(Material)` | Removes a custom sell price for a material | `void` |
+| `getCustomSellPrices()` | Gets configured custom sell prices | `Map<String, Double>` |
 
 ### SpawnerDataDTO
 
@@ -185,6 +190,24 @@ if (modifier != null) {
     
     player.sendMessage("All values updated successfully!");
 }
+```
+
+### Sell Price Management
+
+Reads and updates SmartSpawner sell prices through the public API.
+
+```java
+import org.bukkit.Material;
+
+double diamondPrice = api.getSellPrice(Material.DIAMOND);
+
+if (!api.hasSellPrice(Material.EMERALD)) {
+    api.setSellPrice(Material.EMERALD, 125.0);
+}
+
+api.getCustomSellPrices().forEach((material, price) -> {
+    plugin.getLogger().info(material + " = " + price);
+});
 ```
 
 <br>
