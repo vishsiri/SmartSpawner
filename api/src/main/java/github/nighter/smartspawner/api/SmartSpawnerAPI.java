@@ -2,6 +2,8 @@ package github.nighter.smartspawner.api;
 
 import github.nighter.smartspawner.api.data.SpawnerDataDTO;
 import github.nighter.smartspawner.api.data.SpawnerDataModifier;
+import github.nighter.smartspawner.api.gui.GuiLayoutRegistry;
+import github.nighter.smartspawner.api.gui.SpawnerGuiLayoutProvider;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -9,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Main API interface for SmartSpawner plugin.
@@ -182,4 +185,44 @@ public interface SmartSpawnerAPI {
      * @return map of material names to custom prices
      */
     Map<String, Double> getCustomSellPrices();
+
+    /**
+     * Removes a spawner from the server, including its block and data.
+     * The returned future completes after the block and stored data have been removed.
+     * If the spawner chunk is not loaded, it is loaded asynchronously before the block is changed.
+     *
+     * @param spawnerId the unique ID of the spawner to remove
+     * @return future containing true when removal completed, false if not found or already being modified
+     */
+    CompletableFuture<Boolean> removeSpawner(String spawnerId);
+
+    /**
+     * Removes a spawner from the server by its location, including its block and data.
+     * The returned future completes after the block and stored data have been removed.
+     * If the spawner chunk is not loaded, it is loaded asynchronously before the block is changed.
+     *
+     * @param location the location of the spawner block to remove
+     * @return future containing true when removal completed, false if not found or already being modified
+     */
+    CompletableFuture<Boolean> removeSpawner(Location location);
+
+    /**
+     * Gets the {@link GuiLayoutRegistry} for registering custom GUI layouts.
+     *
+     * @return the layout registry instance
+     */
+    GuiLayoutRegistry getLayoutRegistry();
+
+    /**
+     * Sets a provider to dynamically override GUI layouts on a per-spawner basis.
+     * Only one provider can be active at a time; setting a new one replaces the previous.
+     *
+     * @param provider the layout provider, or null to clear
+     */
+    void setSpawnerLayoutProvider(SpawnerGuiLayoutProvider provider);
+
+    /**
+     * Clears the currently active per-spawner layout provider.
+     */
+    void clearSpawnerLayoutProvider();
 }

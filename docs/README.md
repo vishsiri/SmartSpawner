@@ -1,136 +1,72 @@
+# SmartSpawner Docs
 
-# SmartSpawner Documentation
+Documentation site for [SmartSpawner](https://github.com/OpenVdra/SmartSpawner), built with [VitePress](https://vitepress.dev/).
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Astro](https://img.shields.io/badge/Astro-5.13.2-orange)](https://astro.build/)
-[![Starlight](https://img.shields.io/badge/Starlight-0.35.2-purple)](https://starlight.astro.build/)
+## Structure
 
-This repository hosts the official documentation website for **[SmartSpawner](https://modrinth.com/plugin/smartspawner)**, a powerful Minecraft plugin designed to enhance mob spawner management on servers.
-
-## About SmartSpawner
-
-SmartSpawner is a feature-rich plugin that simplifies and enhances the management of mob spawners in Minecraft servers. It offers advanced customization options, seamless integrations with popular plugins, and a robust developer API for extending functionality. Notably, its GUI-based system generates mob drops and experience without spawning entities, significantly boosting server performance.
-
-## Site Overview
-
-- **Framework**: Astro with Starlight theme
-- **Version**: 0.0.1
-- **Primary Dependencies**:
-  - Astro (^5.13.2)
-  - @astrojs/starlight (^0.35.2)
-  - Starlight themes (Catppuccin, Next, Obsidian)
-  - Sharp (^0.34.2)
-
-## Quick Start
-
-### Prerequisites
-- Node.js (version 18 or higher)
-- npm or yarn package manager
-
-### Local Development
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/NighterDevelopment/SmartSpawner.git
-   cd SmartSpawner/docs
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**:
-   ```bash
-   npm run dev
-   ```
-   The site will be available at `http://localhost:4321`.
-
-### Build and Preview
-
-- **Build for production**:
-  ```bash
-  npm run build
-  ```
-
-- **Preview the production build**:
-  ```bash
-  npm run preview
-  ```
-
-## Project Structure
-
+```text
+docs/
+|-- .vitepress/
+|   |-- components/          # Shared Vue components
+|   |-- theme/               # Theme layout and styles
+|   `-- config.mts           # Navigation and sidebar config
+|-- docs/
+|   |-- features/
+|   |   |-- index.md         # Feature overview
+|   |   `-- *.md             # One page per feature
+|   |-- integrations/
+|   |   |-- index.md         # Integration overview
+|   |   `-- *.md             # One page per integration topic
+|   |-- developer-api/       # Developer API pages
+|   `-- *.md                 # General documentation pages
+|-- vi/
+|   |-- docs/                # Vietnamese mirror of every documentation page
+|   `-- index.md             # Vietnamese home page
+|-- public/                  # Static assets
+|-- index.md                 # Home page
+`-- package.json
 ```
-SmartSpawner/
-├── docs/                  # Documentation site (this folder)
-│   ├── src/
-│   │   ├── content/
-│   │   │   └── docs/      # Main documentation files (Markdown/MDX)
-│   │   ├── components/    # Custom Astro components
-│   │   ├── styles/        # Custom CSS styles
-│   │   └── assets/        # Static assets
-│   ├── public/            # Public static files
-│   ├── astro.config.mjs   # Astro configuration
-│   ├── package.json       # Project dependencies and scripts
-│   └── tsconfig.json      # TypeScript configuration
-├── core/                  # Plugin core module
-├── api/                   # Plugin API module
-└── ...                    # Other plugin source files
+
+Keep feature and integration topics in their matching directories. Each topic should have its own Markdown file and sidebar entry; use each directory's `index.md` only as the overview page.
+
+## Internationalization
+
+VitePress serves English from `/` and Vietnamese from `/vi/`. Locale-specific
+navigation, sidebars, edit links, and UI labels are configured in
+`.vitepress/config.mts`. The language dropdown keeps the equivalent page path
+when switching languages.
+
+Every English page under `docs/` must have a translated counterpart under
+`vi/docs/`. Use `/vi/docs/...` links inside Vietnamese Markdown.
+
+## Development
+
+```bash
+npm install
+npm run docs:dev
+npm run docs:build
+npm run docs:preview
 ```
+
+The development server defaults to `http://localhost:5173`. Production output is generated in `.vitepress/dist/`.
+
+## Custom Components
+
+All components are registered through the VitePress theme.
+
+| Component | Usage |
+|---|---|
+| `<CommandRow>` | Display a command with its permission node |
+| `<PermCommandRow>` | Compact command and permission table row |
+| `<PermRow>` | Standalone permission row |
+| `<ConfigProperty>` | Config key with type, default, and description |
+| `<ConfigGroup>` | Group multiple configuration properties |
+| `<DocCard>` | Linked navigation card |
+| `<FeatureCard>` | Feature detail card |
+| `<CardGrid>` | Responsive card grid |
+| `<LucideIcon>` | Render an icon from the shared Lucide registry |
+| `<LanguageDropdown>` | Switch between corresponding English and Vietnamese pages |
 
 ## Contributing
 
-We appreciate contributions from the community! Whether you're fixing a typo, adding new documentation, or improving the site's functionality, your input is valuable.
-
-### Contribution Guidelines
-
-1. **Fork the repository** on GitHub.
-2. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Make your changes**:
-   - Documentation updates go in `src/content/docs/`
-   - Component changes in `src/components/`
-   - Style modifications in `src/styles/`
-4. **Test your changes** locally using `npm run dev`.
-5. **Update timestamps for documentation files** (if you modified any `.md` files in `src/content/docs/`):
-
-   ```bash
-   npm run add-timestamps
-   ```
-   This command automatically updates the "Last update" timestamp at the end of each modified documentation file based on its last modification time. This ensures accurate update information for readers
-6. **Commit your changes** with descriptive messages:
-   ```bash
-   git commit -m "Add comprehensive guide for plugin integrations"
-   ```
-7. **Push to your fork** and **create a pull request**.
-
-### Code Style
-- Follow existing Markdown formatting and structure.
-- Use clear, concise language suitable for both beginners and advanced users.
-- Include code examples where applicable.
-- Test all links and ensure they are functional.
-
-For significant changes or new features, please open an issue first to discuss the proposed modifications.
-
-## Deployment
-
-The site is automatically deployed to GitHub Pages via GitHub Actions on every push to the `main` branch. The workflow is defined in `.github/workflows/deploy-docs.yml` at the root of the repository.
-
-The live site is available at: https://docs.smartspawner.site/
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support and Contact
-
-- **Issues**: Report bugs or request features via [GitHub Issues](https://github.com/NighterDevelopment/SmartSpawner/issues)
-- **Discussions**: Join community discussions on [Discord Server](https://dsc.gg/nighterdevelopment)
-
-For questions about the SmartSpawner plugin itself, please refer to the main plugin repository or community channels.
-
----
-
-*Built with ❤️ using Astro and Starlight*
+Edit the relevant Markdown file under `docs/` and open a pull request. Register new pages in `.vitepress/config.mts` under `themeConfig.sidebar`.

@@ -2,7 +2,7 @@ plugins {
     java
     `java-library`
     `maven-publish`
-    id("com.gradleup.shadow") version "9.4.1" apply false
+    id("com.gradleup.shadow") version "9.6.1" apply false
 }
 
 allprojects {
@@ -10,7 +10,7 @@ allprojects {
     apply(plugin = "maven-publish")
 
     group = "github.nighter"
-    version = "1.6.6"
+    version = "1.7.1.2"
 
     repositories {
         mavenCentral()
@@ -34,9 +34,18 @@ allprojects {
             name = "enginehub"
             url = uri("https://maven.enginehub.org/repo/")
         }
-        maven {
-            name = "glaremasters repo"
-            url = uri("https://repo.glaremasters.me/repository/towny/")
+        ivy {
+            name = "townyGitHubReleases"
+            url = uri("https://github.com/TownyAdvanced/Towny/releases/download")
+            patternLayout {
+                artifact("[revision]/[artifact]-[revision].[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeModule("com.palmergames.bukkit.towny", "towny")
+            }
         }
         maven {
             name = "bg-repo"
@@ -50,13 +59,25 @@ allprojects {
             name = "nightexpress-releases"
             url = uri("https://repo.nightexpressdev.com/releases")
         }
-        maven {
-            name = "iridiumdevelopment"
-            url = uri("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+        ivy {
+            name = "iridiumSkyblockGitHubReleases"
+            url = uri("https://github.com/Iridium-Development/IridiumSkyblock/releases/download")
+            patternLayout {
+                artifact("[revision]/[artifact]-[revision].[ext]")
+            }
+            metadataSources {
+                artifact()
+            }
+            content {
+                includeModule("com.iridium", "IridiumSkyblock")
+            }
         }
         maven {
-            name = "Lumine Releases"
+            name = "lumineReleases"
             url = uri("https://mvn.lumine.io/repository/maven-public/")
+            content {
+                includeGroup("io.lumine")
+            }
         }
         maven {
             name = "groupez"
@@ -70,6 +91,20 @@ allprojects {
             name = "william278Releases"
             url = uri("https://repo.william278.net/releases")
         }
+        maven {
+            name = "factionsuuid"
+            url = uri("https://dependency.download/releases")
+            content {
+                includeGroup("dev.kitteh")
+            }
+        }
+        maven {
+            name = "codemc-public"
+            url = uri("https://repo.codemc.org/repository/maven-public/")
+            content {
+                includeGroup("nl.rutgerkok")
+            }
+        }
     }
 }
 
@@ -82,20 +117,22 @@ subprojects {
     }
 }
 
-val targetJavaVersion = 21
-java {
-    val javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+val targetJavaVersion = 25
+allprojects {
+    java {
+        val javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion.set(JavaLanguageVersion.of(targetJavaVersion))
+        }
     }
-}
 
-tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
-        options.release.set(targetJavaVersion)
+    tasks.withType<JavaCompile>().configureEach {
+        options.encoding = "UTF-8"
+        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible) {
+            options.release.set(targetJavaVersion)
+        }
     }
 }
 

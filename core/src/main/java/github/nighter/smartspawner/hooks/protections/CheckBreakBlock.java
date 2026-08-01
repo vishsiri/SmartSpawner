@@ -23,7 +23,8 @@ public class CheckBreakBlock {
         if (integrationManager.isHasPlotSquared() && !PlotSquared.canInteract(player, location)) return false;
         if (integrationManager.isHasResidence() && !Residence.canPlayerBreakBlock(player, location)) return false;
         if (integrationManager.isHasMinePlots() && !MinePlots.canPlayerBreakBlock(player, location)) return false;
-        if (integrationManager.isHasHuskClaims() && !HuskClaims.canPlayerBreakBlock(player, location)) return false;
+        if (integrationManager.isHasFactions() && !Factions.canPlayerBreakClaimBlock(player, location)) return false;
+        if (integrationManager.isHasBlockLocker() && !BlockLocker.canPlayerBreakClaimBlock(player, location)) return false;
         return true;
     }
 }

@@ -80,3 +80,9 @@ local.properties
 *.log
 javac.*.args
 *.backup
+.claude
+
+##############################
+## run-paper test server
+##############################
+run/
