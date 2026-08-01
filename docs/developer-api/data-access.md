@@ -10,6 +10,11 @@ Methods for reading and modifying spawner data via the API.
 | `getSpawnerById(String)` | Get spawner by unique ID | `SpawnerDataDTO` |
 | `getAllSpawners()` | Get all registered spawners | `List<SpawnerDataDTO>` |
 | `getSpawnerModifier(String)` | Get modifier for changing spawner properties | `SpawnerDataModifier` |
+| `getSellPrice(Material)` | Get the active sell price for a material | `double` |
+| `hasSellPrice(Material)` | Check whether a material has a sell price | `boolean` |
+| `setSellPrice(Material, double)` | Set a custom sell price | `void` |
+| `removeSellPrice(Material)` | Remove a custom sell price | `void` |
+| `getCustomSellPrices()` | Get a snapshot of custom sell prices | `Map<String, Double>` |
 | `removeSpawner(String)` | Remove spawner by ID | `CompletableFuture<Boolean>` |
 | `removeSpawner(Location)` | Remove spawner by location | `CompletableFuture<Boolean>` |
 
@@ -92,6 +97,21 @@ for (SpawnerDataDTO s : all) {
     player.sendMessage("- " + s.getEntityType() + " at " + s.getLocation()
         + " (stack: " + s.getStackSize() + ")");
 }
+```
+
+### Manage Sell Prices
+
+The active price follows SmartSpawner's configured price-source mode. Price mutations affect the custom price store and are persisted only when custom prices are enabled.
+
+```java
+double diamondPrice = api.getSellPrice(Material.DIAMOND);
+
+if (!api.hasSellPrice(Material.EMERALD)) {
+    api.setSellPrice(Material.EMERALD, 125.0);
+}
+
+api.getCustomSellPrices().forEach((material, price) ->
+    plugin.getLogger().info(material + " = " + price));
 ```
 
 ### Remove a Spawner

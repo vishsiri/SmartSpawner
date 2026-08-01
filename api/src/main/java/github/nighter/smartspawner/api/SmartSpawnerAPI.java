@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -144,6 +145,46 @@ public interface SmartSpawnerAPI {
      * @return a spawner data modifier, or null if spawner doesn't exist
      */
     SpawnerDataModifier getSpawnerModifier(String spawnerId);
+
+    /**
+     * Gets the active sell price for a material using SmartSpawner's configured price source mode.
+     * This may resolve from custom prices, shop integration, or their configured priority.
+     *
+     * @param material the material to price
+     * @return the active sell price, or 0 when selling/pricing is unavailable
+     */
+    double getSellPrice(Material material);
+
+    /**
+     * Checks whether SmartSpawner can resolve a sell price for a material.
+     *
+     * @param material the material to check
+     * @return true when the material has a configured or integrated sell price
+     */
+    boolean hasSellPrice(Material material);
+
+    /**
+     * Sets a custom sell price for a material in SmartSpawner's custom price store.
+     * The price is persisted to the configured item prices file when custom prices are enabled.
+     *
+     * @param material the material to update
+     * @param price the custom sell price
+     */
+    void setSellPrice(Material material, double price);
+
+    /**
+     * Removes a custom sell price for a material from SmartSpawner's custom price store.
+     *
+     * @param material the material to remove
+     */
+    void removeSellPrice(Material material);
+
+    /**
+     * Gets a snapshot of SmartSpawner's custom sell prices.
+     *
+     * @return map of material names to custom prices
+     */
+    Map<String, Double> getCustomSellPrices();
 
     /**
      * Removes a spawner from the server, including its block and data.

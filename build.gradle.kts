@@ -135,3 +135,19 @@ allprojects {
         }
     }
 }
+
+// The root project has no plugin classes/resources. Keep build/libs focused on the
+// runnable plugin jar from :core so deploy scripts do not pick up an empty root jar.
+tasks.jar {
+    enabled = false
+}
+
+val copyPluginJar by tasks.registering(Copy::class) {
+    dependsOn(":core:shadowJar")
+    from(project(":core").layout.buildDirectory.file("libs/SmartSpawner-${project.version}.jar"))
+    into(layout.buildDirectory.dir("libs"))
+}
+
+tasks.assemble {
+    dependsOn(copyPluginJar)
+}

@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -202,6 +203,43 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
 
         SpawnerData spawnerData = spawnerManager.getSpawnerById(spawnerId);
         return spawnerData != null ? new SpawnerDataModifierImpl(spawnerData) : null;
+    }
+
+    @Override
+    public double getSellPrice(Material material) {
+        if (plugin.getItemPriceManager() == null) {
+            return 0.0;
+        }
+        return plugin.getItemPriceManager().getPrice(material);
+    }
+
+    @Override
+    public boolean hasSellPrice(Material material) {
+        return plugin.getItemPriceManager() != null && plugin.getItemPriceManager().hasPriceFor(material);
+    }
+
+    @Override
+    public void setSellPrice(Material material, double price) {
+        if (plugin.getItemPriceManager() == null) {
+            return;
+        }
+        plugin.getItemPriceManager().setPrice(material, price);
+    }
+
+    @Override
+    public void removeSellPrice(Material material) {
+        if (plugin.getItemPriceManager() == null) {
+            return;
+        }
+        plugin.getItemPriceManager().removePrice(material);
+    }
+
+    @Override
+    public Map<String, Double> getCustomSellPrices() {
+        if (plugin.getItemPriceManager() == null) {
+            return Map.of();
+        }
+        return Map.copyOf(plugin.getItemPriceManager().getAllPrices());
     }
 
     @Override
