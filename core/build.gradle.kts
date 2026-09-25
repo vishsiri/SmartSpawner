@@ -44,9 +44,13 @@ dependencies {
     implementation("com.github.GriefPrevention:GriefPrevention:18.0.0")
     implementation("com.github.IncrediblePlugins:LandsAPI:7.25.4")
     implementation("com.github.Xyness:SimpleClaimSystem-API:v2.5.10")
-    implementation("com.github.Xyness:SimpleClaimSystem:1.13.1")
+    implementation("com.github.Xyness:SimpleClaimSystem:1.13.1") {
+        exclude(group = "com.technicjelle", module = "BMUtils")
+    }
     implementation("com.github.Zrips:Residence:6.0.2.3") {
         exclude(group = "org.bukkit")
+        exclude(group = "com.sk89q.worldguard")
+        exclude(group = "com.sk89q.worldedit")
     }
 
     compileOnly("io.lumine:Mythic-Dist:5.13.0")
@@ -59,7 +63,13 @@ dependencies {
 
     compileOnly("org.projectlombok:lombok:1.18.46")
     annotationProcessor("org.projectlombok:lombok:1.18.46")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.13.4")
     shade("org.bstats:bstats-bukkit:3.2.1")
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 tasks.withType<JavaCompile>().configureEach {

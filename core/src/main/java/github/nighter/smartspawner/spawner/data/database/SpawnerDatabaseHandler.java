@@ -4,6 +4,7 @@ import github.nighter.smartspawner.SmartSpawner;
 import github.nighter.smartspawner.Scheduler;
 import github.nighter.smartspawner.commands.list.gui.CrossServerSpawnerData;
 import github.nighter.smartspawner.spawner.data.storage.SpawnerStorage;
+import github.nighter.smartspawner.spawner.data.storage.SpawnerChangeTracker;
 import github.nighter.smartspawner.spawner.data.storage.StorageMode;
 import github.nighter.smartspawner.spawner.properties.ItemSignature;
 import github.nighter.smartspawner.spawner.properties.SpawnerData;
@@ -179,17 +180,13 @@ public class SpawnerDatabaseHandler implements SpawnerStorage {
 
     @Override
     public void markSpawnerModified(String spawnerId) {
-        if (spawnerId != null) {
-            dirtySpawners.add(spawnerId);
-            deletedSpawners.remove(spawnerId);
-        }
+        SpawnerChangeTracker.markModified(dirtySpawners, deletedSpawners, spawnerId);
     }
 
     @Override
     public void markSpawnerDeleted(String spawnerId) {
+        SpawnerChangeTracker.markDeleted(dirtySpawners, deletedSpawners, spawnerId);
         if (spawnerId != null) {
-            deletedSpawners.add(spawnerId);
-            dirtySpawners.remove(spawnerId);
             locationCache.remove(spawnerId);
         }
     }

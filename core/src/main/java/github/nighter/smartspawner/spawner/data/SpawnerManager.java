@@ -237,6 +237,11 @@ public class SpawnerManager {
      * @param spawnerId The ID of the modified spawner
      */
     public void markSpawnerModified(String spawnerId) {
+        // Async work may finish after the physical spawner was removed. Do not
+        // let a stale SpawnerData reference cancel or outlive its deletion.
+        if (spawnerId == null || !spawners.containsKey(spawnerId)) {
+            return;
+        }
         spawnerStorage.markSpawnerModified(spawnerId);
     }
 

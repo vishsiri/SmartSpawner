@@ -66,6 +66,7 @@ All components are registered through the VitePress theme.
 | `<CardGrid>` | Responsive card grid |
 | `<LucideIcon>` | Render an icon from the shared Lucide registry |
 | `<LanguageDropdown>` | Switch between corresponding English and Vietnamese pages |
+| `<PictureGallery>` | Searchable, localized screenshot gallery |
 
 ## Contributing
 

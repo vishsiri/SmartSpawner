@@ -437,9 +437,11 @@ public class SpawnerBreakListener implements Listener {
         block.setType(Material.AIR);
 
         String spawnerId = spawner.getSpawnerId();
+        // Queue persistence deletion immediately after the world mutation so
+        // later cleanup failures cannot leave a database-only ghost record.
+        spawnerManager.markSpawnerDeleted(spawnerId);
         plugin.getRangeChecker().deactivateSpawner(spawner);
         spawnerManager.removeSpawner(spawnerId);
-        spawnerManager.markSpawnerDeleted(spawnerId);
 
         // Remove location lock to prevent memory leak
         Location location = block.getLocation();

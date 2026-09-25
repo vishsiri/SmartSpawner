@@ -20,6 +20,7 @@ import UsageStats from '../components/home/UsageStats.vue'
 import LucideIcon from '../components/icon/LucideIcon.vue'
 import LanguageDropdown from '../components/nav/LanguageDropdown.vue'
 import VersionDropdown from '../components/nav/VersionDropdown.vue'
+import PictureGallery from '../components/pictures/PictureGallery.vue'
 
 export default {
     extends: DefaultTheme,
@@ -44,5 +45,6 @@ export default {
         app.component('LucideIcon', LucideIcon)
         app.component('LanguageDropdown', LanguageDropdown)
         app.component('VersionDropdown', VersionDropdown)
+        app.component('PictureGallery', PictureGallery)
     }
 }

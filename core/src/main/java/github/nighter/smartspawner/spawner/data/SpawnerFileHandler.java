@@ -2,6 +2,7 @@ package github.nighter.smartspawner.spawner.data;
 
 import github.nighter.smartspawner.SmartSpawner;
 import github.nighter.smartspawner.spawner.data.storage.SpawnerStorage;
+import github.nighter.smartspawner.spawner.data.storage.SpawnerChangeTracker;
 import github.nighter.smartspawner.spawner.properties.ItemSignature;
 import github.nighter.smartspawner.spawner.properties.SpawnerData;
 import github.nighter.smartspawner.spawner.properties.VirtualInventory;
@@ -86,18 +87,12 @@ public class SpawnerFileHandler implements SpawnerStorage {
 
     @Override
     public void markSpawnerModified(String spawnerId) {
-        if (spawnerId != null) {
-            dirtySpawners.add(spawnerId);
-            deletedSpawners.remove(spawnerId);
-        }
+        SpawnerChangeTracker.markModified(dirtySpawners, deletedSpawners, spawnerId);
     }
 
     @Override
     public void markSpawnerDeleted(String spawnerId) {
-        if (spawnerId != null) {
-            deletedSpawners.add(spawnerId);
-            dirtySpawners.remove(spawnerId);
-        }
+        SpawnerChangeTracker.markDeleted(dirtySpawners, deletedSpawners, spawnerId);
     }
 
     @Override

@@ -277,6 +277,7 @@ export default defineConfig({
           { text: 'Home', link: '/', activeMatch: '^/$' },
           { text: 'Docs', link: '/docs/', activeMatch: '^/docs/(?!changelog)' },
           { text: 'Features', link: '/features/', activeMatch: '^/features/' },
+          { text: 'Pictures', link: '/pictures', activeMatch: '^/pictures' },
           { text: 'Developer API', link: '/developer-api/', activeMatch: '^/developer-api/' },
           { component: 'VersionDropdown' },
           { component: 'LanguageDropdown' }
@@ -312,6 +313,7 @@ export default defineConfig({
           { text: 'Trang chủ', link: '/vi/', activeMatch: '^/vi/$' },
           { text: 'Tài liệu', link: '/vi/docs/', activeMatch: '^/vi/docs/(?!changelog)' },
           { text: 'Tính năng', link: '/vi/features/', activeMatch: '^/vi/features/' },
+          { text: 'Hình ảnh', link: '/vi/pictures', activeMatch: '^/vi/pictures' },
           { text: 'API lập trình', link: '/vi/developer-api/', activeMatch: '^/vi/developer-api/' },
           { component: 'VersionDropdown' },
           { component: 'LanguageDropdown' }

@@ -9,8 +9,8 @@ hero:
       text: Get Started
       link: /docs/
     - theme: alt
-      text: Explore Integrations
-      link: /docs/integrations/
+      text: Browse Pictures
+      link: /pictures
     - theme: alt
       text: Download
       link: /docs/download
