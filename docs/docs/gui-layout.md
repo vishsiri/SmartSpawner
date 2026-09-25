@@ -42,7 +42,7 @@ slot_12:
 The value uses the same time format as `config.yml` (`20`, `5s`, `10m`, `1h`, compound `1m_30s`, etc.).
 
 - A button rejected by cooldown does not run its action, and sends the `action_not_ready` message with the `{time}` placeholder.
-- All action buttons have a built-in **300 ms anti-spam debounce**, even without a `cooldown`.
+- All action buttons have a built-in **100 ms anti-spam debounce**, even without a `cooldown`.
 - Cooldown can also be overridden inside a conditional `if:` branch.
 
 ```yaml
@@ -56,7 +56,7 @@ slot_14:
         action: "sell_and_exp"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 ## Button Click Sounds
@@ -96,7 +96,7 @@ left_click:
   sound_success: block.note_block.bell
   sound_fail: block.note_block.pling
 right_click:
-  action: "open_stacker"
+  action: "collect_exp"
   sound: ui.button.click
 ```
 
@@ -127,15 +127,15 @@ slot_14:
       left_click:
         action: "sell_and_exp"
       right_click:
-        action: "open_stacker"
+        action: "none"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 - `custom_texture` is the hash from the texture URL (without the `http://textures.minecraft.net/texture/` prefix).
 - Textures can be found at [Minecraft-Heads.com](https://minecraft-heads.com/).
-- If omitted on the info button, the plugin falls back to the mob head from `spawners_settings.yml`.
+- If omitted on the info button, the plugin falls back to the mob head from `spawner_mobs.yml`.
 - Textures are cached after first load with no performance impact on repeated GUI opens.
 
 ::: warning
@@ -159,7 +159,7 @@ slot_14:
         action: "sell_and_exp"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 Available conditions include `sell_integration` and `no_sell_integration`.

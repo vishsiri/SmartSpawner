@@ -28,11 +28,6 @@ spawner_activated:
   message: 'Spawner başarıyla&a aktif edildi. &rArtık düşen XP ve eşyaları toplayabilirsin.'
   sound: block.beacon.activate
 
-spawner_protected:
-  message: '&#FF4444Bu spawner korunuyor!'
-  action_bar: '&#FF4444Bu spawner korunuyor!'
-  sound: block.note_block.pling
-
 inventory_full:
   message: '&#FF4444Envanterin dolu.'
 
@@ -42,6 +37,10 @@ spawner_storage_empty:
 action_in_progress:
   message: '&#F0C857Şu anda devam eden bir işlem var. Lütfen bekle.'
   action_bar: '&#F0C857İşlem sürüyor. Lütfen bekle.'
+
+storage_in_use:
+  message: '&#FF4444Bu spawner deposu şu anda başka bir oyuncu tarafından açık.'
+  action_bar: '&#FF4444Depo başka bir oyuncu tarafından kullanılıyor.'
 
 action_failed:
   message: '&#FF4444İşlem başarısız oldu. Lütfen tekrar dene.'
@@ -75,22 +74,6 @@ click_too_fast:
 # ──────────────────────────────────────────────────────
 #         Spawner - Birleştirici Menü Etkileşimi
 # ──────────────────────────────────────────────────────
-spawner_stacker_minimum_reached:
-  message: '&#FF4444Minimum sınıra ulaşıldı. &f{amount} &cadet stackte kalacak.'
-  sound: block.note_block.pling
-
-spawner_cannot_remove_last:
-  action_bar: '&#FF4444Son spawnerı kaldıramazsın.'
-  sound: block.note_block.pling
-
-spawner_insufficient_quantity:
-  action_bar: '&#FF4444Yeterli spawner yok: &f{amountAvailable}&c/&f{amountChange}'
-  sound: block.note_block.pling
-
-stacker_drop_blocked:
-  message: '&#FF4444Bu spawnerda düşme şansı ayarlı olduğu için Stack menüsü devre dışı.'
-  sound: block.note_block.pling
-
 # ──────────────────────────────────────────────────────
 #             Spawner - Stack Etkileşimi
 # ──────────────────────────────────────────────────────

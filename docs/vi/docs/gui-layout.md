@@ -42,7 +42,7 @@ slot_12:
 Giá trị dùng cùng định dạng thời gian với `config.yml`: `20`, `5s`, `10m`, `1h`, `1m_30s`, v.v.
 
 - Nút đang cooldown không chạy action và gửi thông báo `action_not_ready` với placeholder `{time}`.
-- Mọi nút action có debounce chống spam **300 ms** ngay cả khi không đặt `cooldown`.
+- Mọi nút action có debounce chống spam **100 ms** ngay cả khi không đặt `cooldown`.
 - Cooldown cũng có thể được ghi đè trong nhánh điều kiện `if:`.
 
 ```yaml
@@ -56,7 +56,7 @@ slot_14:
         action: "sell_and_exp"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 ## Âm Thanh Khi Nhấn
@@ -96,7 +96,7 @@ left_click:
   sound_success: block.note_block.bell
   sound_fail: block.note_block.pling
 right_click:
-  action: "open_stacker"
+  action: "collect_exp"
   sound: ui.button.click
 ```
 
@@ -127,15 +127,15 @@ slot_14:
       left_click:
         action: "sell_and_exp"
       right_click:
-        action: "open_stacker"
+        action: "none"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 - `custom_texture` là hash trong URL texture, không gồm tiền tố `http://textures.minecraft.net/texture/`.
 - Có thể tìm texture tại [Minecraft-Heads.com](https://minecraft-heads.com/).
-- Nếu bỏ qua trên nút thông tin, plugin dùng head mob từ `spawners_settings.yml`.
+- Nếu bỏ qua trên nút thông tin, plugin dùng head mob từ `spawner_mobs.yml`.
 - Texture được cache sau lần tải đầu, không ảnh hưởng hiệu năng khi mở GUI sau đó.
 
 ::: warning
@@ -159,7 +159,7 @@ slot_14:
         action: "sell_and_exp"
     no_sell_integration:
       click:
-        action: "open_stacker"
+        action: "none"
 ```
 
 Điều kiện hiện có gồm `sell_integration` và `no_sell_integration`.

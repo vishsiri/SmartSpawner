@@ -1,6 +1,6 @@
 package github.nighter.smartspawner.language.section;
 
-import github.nighter.smartspawner.language.cache.LRUCache;
+import github.nighter.smartspawner.utils.LRUCache;
 import github.nighter.smartspawner.language.format.ColorUtil;
 import github.nighter.smartspawner.language.format.LanguageComponentFormatter;
 
@@ -159,6 +159,26 @@ public final class GuiLanguageSection {
 
     public Component translatableLootLine(String templateKey, Material material, String amount, String chance) {
         return LanguageComponentFormatter.translatableLootLine(config().getString(templateKey), material, amount, chance);
+    }
+
+    public Component translatableLootLine(String templateKey, Component itemName, String amount, String chance) {
+        return LanguageComponentFormatter.translatableLootLine(config().getString(templateKey), itemName, amount, chance);
+    }
+
+    /**
+     * A lore where one placeholder is replaced by a ready component (an item's effective name) rather
+     * than text, so the name is readable and correctly translated instead of a raw config value.
+     */
+    public List<Component> loreWithItemName(String key, Map<String, String> placeholders,
+                                            String placeholder, Component itemName) {
+        if (!enabled.getAsBoolean()) return Collections.emptyList();
+
+        return LanguageComponentFormatter.loreWithItemName(
+                config().getStringList(key),
+                line -> formatter.apply(line, placeholders),
+                placeholder,
+                itemName
+        );
     }
 
     public List<Component> loreComponents(

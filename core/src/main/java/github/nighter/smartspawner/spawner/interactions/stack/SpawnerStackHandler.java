@@ -71,7 +71,8 @@ public class SpawnerStackHandler {
         }
 
         try {
-            handleSpawnerStack(player, spawnerData, itemInHand, player.isSneaking());
+            boolean stackAll = player.isSneaking() && Config.get().isSneakStackEnabled();
+            handleSpawnerStack(player, spawnerData, itemInHand, stackAll);
         } finally {
             releaseStackLock(block.getLocation());
             updateLastStackTime(player);
@@ -122,6 +123,12 @@ public class SpawnerStackHandler {
             return false;
         }
 
+        String handConfigName = SpawnerTypeChecker.getConfigName(itemInHand);
+        if (handConfigName != null && !handConfigName.equals(targetSpawner.getConfigName())) {
+            messageService.sendMessage(player, "spawner_different");
+            return false;
+        }
+
         // If both are item spawners, check if they spawn the same item
         if (isItemSpawnerItem && isTargetItemSpawner) {
             Material handItemMaterial = SpawnerTypeChecker.getItemSpawnerMaterial(itemInHand);
@@ -165,7 +172,7 @@ public class SpawnerStackHandler {
 
     private boolean hasStackPermissions(Player player, Location location) {
         if (!CheckStackBlock.CanPlayerPlaceBlock(player, location)) {
-            messageService.sendMessage(player, "spawner_protected");
+            // The protection plugin that denied the action shows its own message; avoid a duplicate.
             return false;
         }
 

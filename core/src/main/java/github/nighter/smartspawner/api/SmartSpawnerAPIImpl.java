@@ -37,6 +37,8 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
     private final SpawnerManager spawnerManager;
     private final SpawnerRemovalService spawnerRemovalService;
     private final GuiLayoutRegistryImpl guiLayoutRegistry;
+    private final NamespacedKey vanillaSpawnerKey;
+    private final NamespacedKey itemSpawnerMaterialKey;
     private volatile SpawnerGuiLayoutProvider spawnerGuiLayoutProvider;
 
     public SmartSpawnerAPIImpl(SmartSpawner plugin) {
@@ -45,6 +47,8 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
         this.spawnerManager = plugin.getSpawnerManager();
         this.spawnerRemovalService = plugin.getSpawnerRemovalService();
         this.guiLayoutRegistry = plugin.getGuiLayoutRegistry();
+        this.vanillaSpawnerKey = new NamespacedKey(plugin, "vanilla_spawner");
+        this.itemSpawnerMaterialKey = new NamespacedKey(plugin, "item_spawner_material");
     }
 
     @Override
@@ -79,49 +83,30 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
 
     @Override
     public boolean isSmartSpawner(ItemStack item) {
-        if (item == null || item.getType() != Material.SPAWNER || !item.hasItemMeta()) {
-            return false;
-        }
-
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
+        if (item == null || item.getType() != Material.SPAWNER) {
             return false;
         }
 
         // A SmartSpawner is a spawner that is NOT vanilla and NOT an item spawner
-        return !isVanillaSpawner(item) && !isItemSpawner(item);
+        return !hasVanillaSpawnerKey(item) && !hasItemSpawnerKey(item);
     }
 
     @Override
     public boolean isVanillaSpawner(ItemStack item) {
-        if (item == null || item.getType() != Material.SPAWNER || !item.hasItemMeta()) {
+        if (item == null || item.getType() != Material.SPAWNER) {
             return false;
         }
 
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return false;
-        }
-
-        return meta.getPersistentDataContainer().has(
-                new org.bukkit.NamespacedKey(plugin, "vanilla_spawner"),
-                org.bukkit.persistence.PersistentDataType.BOOLEAN);
+        return hasVanillaSpawnerKey(item);
     }
 
     @Override
     public boolean isItemSpawner(ItemStack item) {
-        if (item == null || item.getType() != Material.SPAWNER || !item.hasItemMeta()) {
+        if (item == null || item.getType() != Material.SPAWNER) {
             return false;
         }
 
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return false;
-        }
-
-        return meta.getPersistentDataContainer().has(
-                new org.bukkit.NamespacedKey(plugin, "item_spawner_material"),
-                org.bukkit.persistence.PersistentDataType.STRING);
+        return hasItemSpawnerKey(item);
     }
 
     @Override
@@ -149,13 +134,8 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
             return null;
         }
 
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return null;
-        }
-
-        String materialName = meta.getPersistentDataContainer().get(
-                new NamespacedKey(plugin, "item_spawner_material"), PersistentDataType.STRING);
+        String materialName = item.getPersistentDataContainer()
+                .get(itemSpawnerMaterialKey, PersistentDataType.STRING);
 
         if (materialName == null) {
             return null;
@@ -285,6 +265,16 @@ public class SmartSpawnerAPIImpl implements SmartSpawnerAPI {
     public void clearSpawnerLayoutProvider() {
         this.spawnerGuiLayoutProvider = null;
         plugin.getGuiLayoutConfig().setProvider(null);
+    }
+
+    private boolean hasVanillaSpawnerKey(ItemStack spawnerItem) {
+        return spawnerItem.getPersistentDataContainer()
+                .has(vanillaSpawnerKey, PersistentDataType.BOOLEAN);
+    }
+
+    private boolean hasItemSpawnerKey(ItemStack spawnerItem) {
+        return spawnerItem.getPersistentDataContainer()
+                .has(itemSpawnerMaterialKey, PersistentDataType.STRING);
     }
 
     /**
