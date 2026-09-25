@@ -86,8 +86,8 @@ public class SpawnerExplosionListener implements Listener {
                         if (hasApiListeners) {
                             Bukkit.getPluginManager().callEvent(new SpawnerExplodeEvent(null, spawnerData.getSpawnerLocation(), 1, true, spawnerData.getEntityType()));
                         }
-                        spawnerManager.removeSpawner(spawnerId);
                         spawnerManager.markSpawnerDeleted(spawnerId);
+                        spawnerManager.removeSpawner(spawnerId);
                     }
                 } else if (protectNatural) {
                     it.remove();

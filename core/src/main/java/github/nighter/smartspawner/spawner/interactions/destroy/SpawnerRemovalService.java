@@ -151,8 +151,8 @@ public class SpawnerRemovalService {
             }
 
             spawner.getSpawnerStop().set(true);
-            spawnerManager.removeSpawner(spawner.getSpawnerId());
             spawnerStorage.markSpawnerDeleted(spawner.getSpawnerId());
+            spawnerManager.removeSpawner(spawner.getSpawnerId());
             completeFuture(future, true);
         } finally {
             pendingRemovalIds.remove(spawner.getSpawnerId());

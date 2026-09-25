@@ -9,8 +9,8 @@ hero:
       text: Bắt đầu
       link: /vi/docs/
     - theme: alt
-      text: Khám phá tích hợp
-      link: /vi/docs/integrations/
+      text: Xem hình ảnh
+      link: /vi/pictures
     - theme: alt
       text: Tải xuống
       link: /vi/docs/download
